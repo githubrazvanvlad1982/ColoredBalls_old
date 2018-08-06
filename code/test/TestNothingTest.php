@@ -90,30 +90,77 @@ class TestNothingTest extends TestCase
         $colloredBalls = new GroupColoredBalls();
         $bals = [
             new Ball('white'),
-            new Ball('black'),
-            new Ball('green'),
-            new Ball('white'),
             new Ball('white'),
             new Ball('black'),
+            new Ball('black'),
             new Ball('green'),
             new Ball('green'),
+            new Ball('white'),
             new Ball('green'),
+            new Ball('black'),
         ];
 
         $this->assertEquals(3, count($colloredBalls->group($bals)));
     }
 
-    public function test_for_balls_of_three_collors_each_group_has_three_balls()
+    public function test_for_balls_of_three_colors_each_group_has_three_balls()
     {
         $colloredBalls = new GroupColoredBalls();
         $bals = [
             new Ball('white'),
+            new Ball('white'),
+            new Ball('black'),
+            new Ball('black'),
+            new Ball('green'),
+            new Ball('green'),
+            new Ball('white'),
+            new Ball('green'),
+            new Ball('black'),
+        ];
+
+
+        $groups = $colloredBalls->group($bals);
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            echo $group->countBalls();
+            $this->assertEquals(3, $group->countBalls());
+        }
+    }
+
+    public function test_for_balls_of_three_collors_return_3_groups_each_group_has_max_two_colors()
+    {
+        $colloredBalls = new GroupColoredBalls();
+        $bals = [
+            new Ball('white'),
+            new Ball('green'),
+            new Ball('black'),
             new Ball('black'),
             new Ball('green'),
             new Ball('white'),
+            new Ball('green'),
             new Ball('white'),
             new Ball('black'),
-            new Ball('green'),
+        ];
+
+        $groups = $colloredBalls->group($bals);
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            $this->assertEquals(3, $group->countBalls());
+            $this->assertLessThanOrEqual(2, $group->countColors());
+        }
+    }
+
+    public function test_3_colors_where_white_4_black_3_green_2()
+    {
+        $colloredBalls = new GroupColoredBalls();
+        $bals = [
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('black'),
+            new Ball('black'),
+            new Ball('black'),
             new Ball('green'),
             new Ball('green'),
         ];
@@ -122,107 +169,7 @@ class TestNothingTest extends TestCase
         /** @var Group $group */
         foreach ($groups as $group) {
             $this->assertEquals(3, $group->countBalls());
+            $this->assertLessThanOrEqual(2, $group->countColors());
         }
-    }
-
-    public function test_for_balls_of_three_collors_each_group_has_max_two_colors()
-    {
-        $colloredBalls = new GroupColoredBalls();
-        $bals = [
-            new Ball('white'),
-            new Ball('black'),
-            new Ball('green'),
-            new Ball('white'),
-            new Ball('white'),
-            new Ball('black'),
-            new Ball('green'),
-            new Ball('green'),
-            new Ball('green'),
-        ];
-
-        $groups = $colloredBalls->group($bals);
-        /** @var Group $group */
-        foreach ($groups as $group) {
-            $this->assertEquals(2, $group->countColors());
-        }
-    }
-}
-
-class GroupColoredBalls
-{
-    public function group(array $balls): array
-    {
-        $groups = [];
-        $colors = [];
-        foreach ($balls as $ball) {
-            if (!in_array($ball->getColor(), $colors)) {
-                $groups[] = new Group();
-                $colors[] = $ball->getColor();
-            }
-        }
-
-        foreach ($balls as $ball) {
-            /** @var Group $group */
-            if (current($groups)->countBalls() == count($colors)) {
-                next($groups);
-            }
-
-            /** @var Group $group */
-            if (current($groups)->countColors() == 2) {
-                next($groups);
-            }
-
-            current($groups)->addBall($ball);
-        }
-
-        return $groups;
-    }
-}
-
-class Group
-{
-    /** @var Ball[] */
-    private  $balls = [];
-
-    public function  countBalls(): int
-    {
-        return count($this->balls);
-    }
-
-    public function getBalls(): array
-    {
-        return [ new Ball('color') ];
-    }
-
-    public function addBall(Ball $ball)
-    {
-        $this->balls[] = $ball;
-    }
-
-    public function countColors()
-    {
-        $colors = [];
-        foreach ($this->balls as $ball) {
-            if (!in_array($ball->getColor(), $colors)) {
-                $colors[] = $ball->getColor();
-            }
-        }
-
-        return count($colors);
-    }
-}
-
-class Ball
-{
-    private $color;
-
-    public function __construct(string $color)
-    {
-        $this->color = $color;
-    }
-
-    public function getColor(): string
-    {
-        return $this->color;
     }
 }
