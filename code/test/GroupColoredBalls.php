@@ -43,6 +43,8 @@ class GroupColoredBalls
             /** @var Group $group */
             if (current($groups)->countBalls() >= count($colors)) {
                 if(!next($groups)) {
+                    $ball = $groups[0]->pop();
+                    array_merge($orderedBalls, [$ball]);
                     reset($groups);
                 }
 
@@ -53,13 +55,19 @@ class GroupColoredBalls
             if (current($groups)->countColors() == 2
                 && !current($groups)->hasBallsOfColor($ball->getColor())){
                 if(!next($groups)) {
+                    $ball = $groups[0]->pop();
+                    $orderedBalls[] = $ball;
                     reset($groups);
                 }
                 continue;
             }
 
             current($groups)->addBall($ball);
-            next($orderedBalls);
+            //$currentBall = current($orderedBalls);
+            //unset($currentBall);
+            $key = key($orderedBalls);
+            unset($orderedBalls[$key]);
+            //next($orderedBalls);
 
         }
 

@@ -47,8 +47,13 @@ class Group
             if ($ball->getColor() == $color) {
                 return true;
             }
-
-            return false;
         }
+
+        return false;
+    }
+
+    public function pop()
+    {
+        return array_pop($this->balls);
     }
 }

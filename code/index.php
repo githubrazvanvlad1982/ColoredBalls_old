@@ -8,12 +8,13 @@ $bals = [
     new Ball('white'),
     new Ball('white'),
     new Ball('white'),
+    new Ball('white'),
+    new Ball('white'),
+    new Ball('white'),
     new Ball('black'),
-    new Ball('black'),
-    new Ball('black'),
-    new Ball('green'),
     new Ball('green'),
 ];
+
 
 /** @var \test\GroupColoredBalls $groupColoredBalls */
 $groupColoredBalls = new \test\GroupColoredBalls();

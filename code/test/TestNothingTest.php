@@ -172,4 +172,74 @@ class TestNothingTest extends TestCase
             $this->assertLessThanOrEqual(2, $group->countColors());
         }
     }
+
+    public function test_3_colors_where_white_5_black_2_green_2()
+    {
+        $colloredBalls = new GroupColoredBalls();
+        $bals = [
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('black'),
+            new Ball('black'),
+            new Ball('green'),
+            new Ball('green'),
+        ];
+
+        $groups = $colloredBalls->group($bals);
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            $this->assertEquals(3, $group->countBalls());
+            $this->assertLessThanOrEqual(2, $group->countColors());
+        }
+    }
+
+    public function test_3_colors_where_white_6_black_2_green_1()
+    {
+        $colloredBalls = new GroupColoredBalls();
+        $bals = [
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('black'),
+            new Ball('black'),
+            new Ball('green'),
+        ];
+
+        $groups = $colloredBalls->group($bals);
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            $this->assertEquals(3, $group->countBalls());
+            $this->assertLessThanOrEqual(2, $group->countColors());
+        }
+    }
+
+    public function test_colors_where_white_7_black_1_green_1()
+    {
+        $colloredBalls = new GroupColoredBalls();
+        $bals = [
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('white'),
+            new Ball('black'),
+            new Ball('green'),
+        ];
+
+        $groups = $colloredBalls->group($bals);
+
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            $this->assertEquals(3, $group->countBalls());
+            $this->assertLessThanOrEqual(2, $group->countColors());
+        }
+    }
 }
